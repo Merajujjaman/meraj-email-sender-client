@@ -25,7 +25,7 @@ const ViewEmailList = () => {
     if(confirmDelete){
         try {
             setIsDeleting(true)
-            const result = await axios.delete(`https://automatic-email-sender-server.vercel.app/api/email-lists/${id}`)
+            const result = await axios.delete(`https://meraj-email-sender-server.onrender.com/api/email-lists/${id}`)
             if(result.data.success){
                 alert('Deleted successful')
                 refetch()

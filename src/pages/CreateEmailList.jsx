@@ -23,7 +23,7 @@ const CreateEmailList = () => {
       console.log(name, emails);
 
     try {
-      const response = await axios.post("https://automatic-email-sender-server.vercel.app/api/email-lists", {
+      const response = await axios.post("https://meraj-email-sender-server.onrender.com/api/email-lists", {
         name,
         emails,
       });

@@ -8,11 +8,11 @@ const ViewCampaign = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState(null);
   const { campaigns, loading, error, refetch } = useCampaignOptions();
-
+  console.log("reply-", selectedCampaign);
   const handleDelete = async (id) => {
     try {
       const result = await axios.delete(
-        `https://automatic-email-sender-server.vercel.app/api/campaigns/${id}`
+        `https://meraj-email-sender-server.onrender.com/api/campaigns/${id}`
       );
       if (result.data.success) {
         toast.success("Campaign deleted successfully");
@@ -32,13 +32,21 @@ const ViewCampaign = () => {
   if (loading) return <p>Loading campaigns...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  const extractMainReplies = (message) => {
+    return message
+      .split(/On .*?wrote:/g) // Split by each reply header
+      .map((reply) => reply.replace(/^>+/gm, "").trim()) // Remove ">" from quoted lines
+      .filter((reply) => reply); // Remove empty entries
+  };
 
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between mb-2 ">
         <h2 className="text-2xl font-semibold mb-4">Campaign List</h2>
-        <Link to='/dashboard/campaign'>
-          <button className="btn btn-info btn-sm hover:bg-blue-600 text-white">Start Campaign</button>
+        <Link to="/dashboard/campaign">
+          <button className="btn btn-info btn-sm hover:bg-blue-600 text-white">
+            Start Campaign
+          </button>
         </Link>
       </div>
 
@@ -49,17 +57,27 @@ const ViewCampaign = () => {
             <tr>
               <th className="px-4 py-2 text-start">Campaign Name</th>
               <th className="px-4 py-2 text-start">Sender Name</th>
-              <th className="px-4 py-2 text-start">Reply Count</th>
+              <th className="py-2 text-start">Reply Count</th>
+              <th className="px-4 py-2 text-start">SMTP</th>
+              <th className="px-4 py-2 text-start">IMAP</th>
               <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {campaigns.map((campaign) => (
+            {campaigns?.map((campaign) => (
               <tr key={campaign._id} className="border-t">
                 <td className="px-4 py-2">{campaign.name}</td>
                 <td className="px-4 py-2">{campaign.senderName}</td>
                 <td className="px-4 py-2">{campaign.replies.length}</td>
-                <td className="px-4 py-2 space-x-2">
+                <td className="px-4 py-2">{campaign?.smtpId?.user}</td>
+                <td
+                  className={`px-4 py-2 font-bold ${
+                    campaign?.smtpId?.isOpen ? "text-green-600" : "text-red-500"
+                  } `}
+                >
+                  {campaign?.smtpId?.isOpen ? "On" : "Off"}
+                </td>
+                <td className="px-4 py-2 flex justify-center gap-2">
                   <button
                     className="px-3 py-1 bg-blue-500 text-white rounded-md"
                     onClick={() => handleDetails(campaign)}
@@ -93,9 +111,16 @@ const ViewCampaign = () => {
             <p>
               <strong>Sender Name:</strong> {selectedCampaign.senderName}
             </p>
-            <p>
-              <strong>Message:</strong> {selectedCampaign.message}
-            </p>
+            <div className="space-y-4">
+              <strong>Message:</strong>
+              {
+              extractMainReplies(selectedCampaign.message).map((reply, index) =>{
+                <p key={index} className="p-3 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-700 whitespace-pre-line">
+                  {reply}
+                </p>
+              })
+              }
+            </div>
             <hr className="my-4" />
             <h3 className="text-lg font-semibold mb-2">Replies:</h3>
 

@@ -8,7 +8,7 @@ const useCampaignOptions = () => {
 
   const fetchCampaigns = async () => {
     try {
-      const response = await axios.get("https://automatic-email-sender-server.vercel.app/api/campaigns");
+      const response = await axios.get("https://meraj-email-sender-server.onrender.com/api/campaigns");
       setCampaigns(response.data.data);
     } catch (err) {
       setError(err.message);

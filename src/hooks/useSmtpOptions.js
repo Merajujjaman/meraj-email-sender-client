@@ -7,7 +7,7 @@ const useSmtpOptions = () => {
   const [error, setError] = useState(null);
   const fetchSmtpOptions = async () => {
     try {
-      const response = await axios.get("https://automatic-email-sender-server.vercel.app/api/smtp");
+      const response = await axios.get("https://meraj-email-sender-server.onrender.com/api/smtp");
       setSmtpOptions(response.data.data);
     } catch (err) {
       setError("Failed to load SMTP options");

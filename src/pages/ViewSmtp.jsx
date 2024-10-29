@@ -45,7 +45,7 @@ const ViewSmtp = () => {
     };
     try {
       await axios.patch(
-        `https://automatic-email-sender-server.vercel.app/api/smtp/${selectedSmtp._id}`,
+        `https://meraj-email-sender-server.onrender.com/api/smtp/${selectedSmtp._id}`,
         updateData
       );
       toast.success("SMTP updated successfully!");
@@ -57,6 +57,18 @@ const ViewSmtp = () => {
     }
   };
 
+  //handle toggle 
+  const handleToggle = async (smtp) => {
+    try {
+      await axios.patch(`https://meraj-email-sender-server.onrender.com/api/smtp/toggle/${smtp._id}`, {isOpen : !smtp.isOpen})
+      toast.success("SMTP updated successfully!")
+      refetch()
+    } catch (error) {
+      console.error("Error updating SMTP:", error);
+      toast.error("Failed to update SMTP.");
+    }
+  }
+
   // Handle SMTP deletion
   const handleDelete = async (id) => {
     const deleteConfirm = window.confirm(
@@ -64,7 +76,7 @@ const ViewSmtp = () => {
     );
     if (deleteConfirm) {
       try {
-        await axios.delete(`https://automatic-email-sender-server.vercel.app/api/smtp/${id}`);
+        await axios.delete(`https://meraj-email-sender-server.onrender.com/api/smtp/${id}`);
         toast.success("SMTP deleted successfully!");
         refetch();
       } catch (error) {
@@ -92,7 +104,8 @@ const ViewSmtp = () => {
             <th className="py-2 px-2 text-start border-b">User</th>
             <th className="py-2 px-2 text-start border-b">Host</th>
             <th className="py-2 px-2 text-start border-b">Port</th>
-            <th className="py-2 px-2 text-start border-b">Actions</th>
+            <th className="py-2 px-2 text-start border-b">IMAP</th>
+            <th className="py-2 px-2 text-center border-b">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -102,15 +115,19 @@ const ViewSmtp = () => {
               <td className="py-2 px-2 border-b">{smtp.host}</td>
               <td className="py-2 px-2 border-b">{smtp.port}</td>
               <td className="py-2 px-2 border-b">
+              <input type="checkbox" className="toggle toggle-sm toggle-success" checked={smtp?.isOpen} onChange={() =>handleToggle(smtp)} />
+
+              </td>
+              <td className="py-2 flex justify-center border-b">
                 <button
                   onClick={() => openModal(smtp)}
-                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 mr-2"
+                  className="btn btn-success btn-xs hover:bg-blue-600 mr-2 text-white"
                 >
                   Update
                 </button>
                 <button
                   onClick={() => handleDelete(smtp._id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                  className="btn btn-xs btn-error hover:bg-red-600 text-white"
                 >
                   Delete
                 </button>

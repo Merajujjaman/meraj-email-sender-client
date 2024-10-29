@@ -46,7 +46,7 @@ const CreateCampaign = () => {
 
     try {
       const response = await axios.post(
-        "https://automatic-email-sender-server.vercel.app/api/campaigns",
+        "https://meraj-email-sender-server.onrender.com/api/campaigns",
         postData
       );
 

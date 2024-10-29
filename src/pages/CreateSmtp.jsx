@@ -30,7 +30,7 @@ const CreateSmtp = () => {
     };
 
     try {
-      const result = await axios.post("https://automatic-email-sender-server.vercel.app/api/smtp", trimmedData);
+      const result = await axios.post("https://meraj-email-sender-server.onrender.com/api/smtp", trimmedData);
       if (result.data.success) {
         toast.success("SMTP settings saved successfully!");
         setFormData({ user: "", pass: "", host: "smtp.gmail.com", port: 587 });

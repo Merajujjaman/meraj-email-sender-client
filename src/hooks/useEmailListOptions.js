@@ -12,7 +12,7 @@ const useEmailListOptions = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get("https://automatic-email-sender-server.vercel.app/api/email-lists");
+      const response = await axios.get("https://meraj-email-sender-server.onrender.com/api/email-lists");
       setEmailListOptions(response.data.data);
     } catch (err) {
       setError("Failed to load email list options");
@@ -46,7 +46,7 @@ export default useEmailListOptions;
 //     useEffect(() => {
 //       const fetchEmailListOptions = async () => {
 //         try {
-//           const response = await axios.get("https://automatic-email-sender-server.vercel.app/api/email-lists");
+//           const response = await axios.get("https://meraj-email-sender-server.onrender.com/api/email-lists");
 //           setEmailListOptions(response.data.data);
 //         } catch (err) {
 //           setError("Failed to load email list options");

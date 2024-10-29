@@ -1,5 +1,7 @@
+import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
+import EmailReplyNotification from "./components/EmailReplyNotification";
 
 function App() {
   return (
@@ -8,7 +10,8 @@ function App() {
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center">
           <Outlet></Outlet>
-          
+          <Toaster></Toaster>
+          <EmailReplyNotification></EmailReplyNotification>
           <label
             htmlFor="my-drawer-2"
             className="btn btn-primary drawer-button lg:hidden"
