@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 
 const EmailReplyNotification = () => {
   // Function to handle SSE connection
+  const notificationSound = new Audio('./email.wav')
+
   useEffect(() => {
     const eventSource = new EventSource("https://meraj-email-sender-server.onrender.com/events");
 
@@ -14,6 +17,11 @@ const EmailReplyNotification = () => {
       const name = data?.reply?.from?.match(/"(.*?)"/)[1];
       const email = data?.reply?.from?.match(/<(.*?)>/)[1];
       const message = data?.reply?.message?.split("\nOn ")[0].trim()
+
+        // Play sound for new notification
+        notificationSound.play().catch(error => {
+          console.error("Sound playback error:", error);
+        });
 
       // Show the alert with email reply details
       toast.success(`New email reply received!\n\nFrom: ${name}\nEmail: ${email}\n\nMessage: ${message}`, {
