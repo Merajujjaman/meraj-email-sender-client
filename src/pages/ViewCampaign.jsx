@@ -8,7 +8,6 @@ const ViewCampaign = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState(null);
   const { campaigns, loading, error, refetch } = useCampaignOptions();
-  console.log("reply-", selectedCampaign);
   const handleDelete = async (id) => {
     try {
       const result = await axios.delete(

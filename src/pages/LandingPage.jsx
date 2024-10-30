@@ -1,3 +1,4 @@
+import EmailReplyNotification from "../components/EmailReplyNotification";
 
 const LandingPage = () => {
   return (
@@ -28,6 +29,7 @@ const LandingPage = () => {
           <p>✔️ Simplified Campaign Management</p>
         </div>
       </div>
+      <EmailReplyNotification></EmailReplyNotification>
     </div>
   );
 };
